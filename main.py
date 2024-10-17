@@ -1,11 +1,11 @@
 class Todo:
     #Конструктор класса Todo, добавляет словарь дел и счетчики.
-    def init(self):
+    def __init__(self):
         self.issue = {}#Словарь дел
         self.transfer_issue = {}#Словарь перенесенных дел.
         self.count = 0
-        self.count_no_complete = 0
-        self.count_transfer = 0
+        self.__count_no_complete = 0
+        self.__count_transfer = 0
     
     #Функция добавляет новое дело
     def add_issue(self,issue,clock,complete,transfer):
@@ -19,6 +19,9 @@ class Todo:
     #Функуия удаляет дело
     def delete_issue(self,issue):
         self.issue.pop(issue)
+        if self.transfer_issue.get(issue):
+            self.transfer_issue.pop(issue)
+        
         self.init_count()
     
     #Возвращает общее колличество дел    
@@ -28,22 +31,22 @@ class Todo:
     #Возвращает колличество не выполненных дел
     @property
     def count_no_complete(self):
-        return self.count_no_complete
+        return self.__count_no_complete
     
     #Возвращает колличество перенесенных дел
     @property
     def count_transfer(self):
-        return self.count_transfer
+        return self.__count_transfer
     
     #Закладывает значение в колличество не выполненных дел
     @count_no_complete.setter
     def count_no_complete(self,count_no_complete):
-        self.count_no_complete = count_no_complete
+        self.__count_no_complete = count_no_complete
         
     #Закладывает значение в колличество перенесенных дел
     @count_transfer.setter
     def count_transfer(self,count_transfer):
-        self.count_transfer = count_transfer
+        self.__count_transfer = count_transfer
         
         
     #Изменяет состояние дела Выполнено\Не выполнено
@@ -86,7 +89,16 @@ class Todo:
         self.count_transfer = c_transfer
         self.count = count
             
-        
+    def new_issue(self):
+        task = input('Enter work name: ')
+        time = input('Enter time in HH:MM - ')
+        busy_time = []
+        for i in self.issue.values():
+            busy_time.append(i[0])
+        if time not in busy_time:
+            self.add_issue(task,time,False,False)
+        else:
+            print('Specify another time')
         
     #thrth
     #Выводит информацию о всех делах
@@ -102,10 +114,7 @@ class Todo:
 
 
 todo = Todo()
-todo.add_issue('Завтрак','8:30', False,False)
-todo.add_issue('Уборка','10:00', False,False)
-todo.add_issue('Корм.Кот','12:30', False,False)
-todo.add_issue('Ожид.Курьера','10:45', False,False)
-todo.add_issue('Починка крана','12:15', False,False)
-todo.change_transfer('Уборка', '12:50')
+todo.new_issue()
+todo.new_issue()
+todo.new_issue()
 todo.show()
