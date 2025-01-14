@@ -110,11 +110,33 @@ class Todo:
         print(f'Не выполненные дела: {self.count_no_complete}')
         print(f'Перенесенные дела: {self.count_transfer}')
         print(f'Общее колличество дел: {self.count}')
-      
+        
+    def menu(self):
+        print('Введите 1 чтобы добавить новое дело')
+        print('Введите 2 чтобы удалить дело')
+        print('Введите 3 чтобы вывести список дел')
+        print('Введите 4 чтобы изменить статус о выполнении')
+        print('Введите 5 чтобы перенести дело')
+        print('Введите 0 для выхода')
+        
+    def start(self):
+        exit = True
+        while exit:
+            self.menu()
+            choise = int(input("Выберите действие"))
+            match choise:
+                case 1:
+                    self.new_issue()
+                case 2:
+                    self.delete_issue(input('Введите название дела: '))
+                case 3:
+                    self.show()
+                case 4:
+                    self.change_issue(input('Введите название дела: '))
+                case 5:
+                    self.change_transfer(input('Введите название дела: '), input('Введите новое время ЧЧ:ММ: '))
+                case 0:
+                    exit = False
 
 
-todo = Todo()
-todo.new_issue()
-todo.new_issue()
-todo.new_issue()
-todo.show()
+
